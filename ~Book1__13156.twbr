@@ -434,7 +434,7 @@
       <column caption='Reviews Per Month' datatype='real' name='[reviews_per_month]' role='dimension' type='quantitative' />
       <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
       <column caption='Title' datatype='string' name='[title]' role='dimension' type='nominal' />
-      <extract _.fcp.ObjectModelExtractV2.true...object-id='' _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' units='records'>
+      <extract _.fcp.ObjectModelExtractV2.true...object-id='' _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='false' units='records'>
         <connection access_mode='readonly' authentication='auth-none' author-locale='en_US' class='hyper' dbname='C:/Users/CaseyD/Dropbox/Baimax/PersonalDevelopment/PowerBI/airbnb_australia/airbnb_australia.hyper' default-settings='yes' schema='Extract' sslmode='' tablename='Extract' update-time='08/20/2023 05:43:14 AM' username='tableau_internal_user'>
           <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='Extract' table='[Extract].[Extract]' type='table' />
           <_.fcp.ObjectModelEncapsulateLegacy.true...relation name='Extract' table='[Extract].[Extract]' type='table' />
@@ -979,44 +979,44 @@
             <datasource caption='combined' name='federated.142xyxt135igw21gjnbed0twadq7' />
           </datasources>
           <datasource-dependencies datasource='federated.142xyxt135igw21gjnbed0twadq7'>
+            <column caption='Price by range' datatype='string' name='[Calculation_925771259231248386]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [price] &lt;= 100 THEN &quot;0-100&quot; ELSEIF [price] &lt;=200 THEN &quot;101-200&quot; ELSEIF [price] &lt;=300 THEN &quot;201-300&quot; ELSEIF [price] &lt;=400 THEN &quot;301-400&quot; ELSEIF [price] &lt;=500 THEN &quot;401-500&quot; ELSE &quot;500+&quot; END' />
+            </column>
             <column-instance column='[number_of_bath]' derivation='Avg' name='[avg:number_of_bath:qk]' pivot='key' type='quantitative' />
             <column-instance column='[number_of_bed]' derivation='Avg' name='[avg:number_of_bed:qk]' pivot='key' type='quantitative' />
             <column-instance column='[number_of_bedroom]' derivation='Avg' name='[avg:number_of_bedroom:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_925771259231248386]' derivation='None' name='[none:Calculation_925771259231248386:nk]' pivot='key' type='nominal' />
             <column caption='Number Of Bath' datatype='real' name='[number_of_bath]' role='measure' type='quantitative' />
             <column caption='Number Of Bed' datatype='real' name='[number_of_bed]' role='measure' type='quantitative' />
             <column caption='Number Of Bedroom' datatype='integer' name='[number_of_bedroom]' role='measure' type='quantitative' />
+            <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
           </datasource-dependencies>
+          <filter class='categorical' column='[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bath:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bed:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bedroom:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]</column>
+          </slices>
           <aggregation value='true' />
         </view>
         <style />
         <panes>
-          <pane id='1' selection-relaxation-option='selection-relaxation-allow'>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
             <view>
               <breakdown value='auto' />
             </view>
             <mark class='Automatic' />
-          </pane>
-          <pane id='3' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bath:qk]'>
-            <view>
-              <breakdown value='auto' />
-            </view>
-            <mark class='Automatic' />
-          </pane>
-          <pane id='4' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bed:qk]'>
-            <view>
-              <breakdown value='auto' />
-            </view>
-            <mark class='Automatic' />
-          </pane>
-          <pane id='5' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bedroom:qk]'>
-            <view>
-              <breakdown value='auto' />
-            </view>
-            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]' />
+            </encodings>
           </pane>
         </panes>
-        <rows>([federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bath:qk] + ([federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bed:qk] + [federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bedroom:qk]))</rows>
-        <cols />
+        <rows>[federated.142xyxt135igw21gjnbed0twadq7].[Multiple Values]</rows>
+        <cols>([federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_925771259231248386:nk] / [federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names])</cols>
       </table>
       <simple-id uuid='{0431838B-402E-4710-A1E6-BE8B34ABE116}' />
     </worksheet>
@@ -1079,7 +1079,7 @@
       <active id='-1' />
       <simple-id uuid='{0A797E33-C4F4-4AD0-B17A-D03D6A1A2757}' />
     </window>
-    <window class='worksheet' name='Geo'>
+    <window class='worksheet' maximized='true' name='Geo'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -1095,7 +1095,7 @@
           <strip size='2147483647'>
             <card type='rows' />
           </strip>
-          <strip size='31'>
+          <strip size='30'>
             <card type='title' />
           </strip>
         </edge>
@@ -1126,12 +1126,41 @@
           <strip size='2147483647'>
             <card type='rows' />
           </strip>
-          <strip size='31'>
+          <strip size='30'>
             <card type='title' />
           </strip>
         </edge>
       </cards>
       <simple-id uuid='{1505DE3E-7FDC-4781-9611-71B525904124}' />
+    </window>
+    <window class='worksheet' name='Sheet 5'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{A2B81FFD-DF3F-4455-BBD2-B46C20535935}' />
     </window>
     <window class='worksheet' name='Review'>
       <cards>
@@ -1149,7 +1178,7 @@
           <strip size='2147483647'>
             <card type='rows' />
           </strip>
-          <strip size='31'>
+          <strip size='30'>
             <card type='title' />
           </strip>
         </edge>
@@ -1172,35 +1201,12 @@
           <strip size='2147483647'>
             <card type='rows' />
           </strip>
-          <strip size='31'>
-            <card type='title' />
-          </strip>
-        </edge>
-      </cards>
-      <simple-id uuid='{0BBA8286-FE51-4FC0-8168-7E22FEA57E50}' />
-    </window>
-    <window class='worksheet' maximized='true' name='Sheet 5'>
-      <cards>
-        <edge name='left'>
-          <strip size='160'>
-            <card type='pages' />
-            <card type='filters' />
-            <card type='marks' />
-          </strip>
-        </edge>
-        <edge name='top'>
-          <strip size='2147483647'>
-            <card type='columns' />
-          </strip>
-          <strip size='2147483647'>
-            <card type='rows' />
-          </strip>
           <strip size='30'>
             <card type='title' />
           </strip>
         </edge>
       </cards>
-      <simple-id uuid='{A2B81FFD-DF3F-4455-BBD2-B46C20535935}' />
+      <simple-id uuid='{0BBA8286-FE51-4FC0-8168-7E22FEA57E50}' />
     </window>
   </windows>
 </workbook>
