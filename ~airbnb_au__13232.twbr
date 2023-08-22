@@ -7,6 +7,8 @@
     <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
     <AutoCreateAndUpdateDSDPhoneLayouts />
     <_.fcp.DataOrientationSidePane.true...DataOrientationSidePane />
+    <IntuitiveSorting />
+    <IntuitiveSorting_SP2 />
     <MapboxVectorStylesAndLayers />
     <_.fcp.MarkAnimation.true...MarkAnimation />
     <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
@@ -15,6 +17,7 @@
     <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
     <SetMembershipControl />
     <SheetIdentifierTracking />
+    <_.fcp.SingleValuePerNestSorting.true...SingleValuePerNestSorting />
     <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
     <WindowsPersistSimpleIdentifiers />
     <ZoneBackgroundTransparency />
@@ -426,6 +429,12 @@
         </metadata-records>
       </connection>
       <aliases enabled='yes' />
+      <column caption='Popularity' datatype='integer' name='[Calculation_102456952531378176]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='365-[availability_365]' />
+      </column>
+      <column caption='Sum by Location' datatype='integer' name='[Calculation_102456952535097347]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='{ FIXED [Location]: count([id])}' />
+      </column>
       <column caption='Price by range' datatype='string' name='[Calculation_925771259231248386]' role='dimension' type='nominal'>
         <calculation class='tableau' formula='IF [price] &lt;= 100 THEN &quot;0-100&quot; ELSEIF [price] &lt;=200 THEN &quot;101-200&quot; ELSEIF [price] &lt;=300 THEN &quot;201-300&quot; ELSEIF [price] &lt;=400 THEN &quot;301-400&quot; ELSEIF [price] &lt;=500 THEN &quot;401-500&quot; ELSE &quot;500+&quot; END' />
       </column>
@@ -444,15 +453,16 @@
       <column caption='Name' datatype='string' name='[name]' role='dimension' type='nominal' />
       <column caption='Neighbourhood' datatype='string' name='[neighbourhood]' role='dimension' type='nominal' />
       <column caption='Neighbourhood Group' datatype='string' name='[neighbourhood_group]' role='dimension' type='nominal' />
-      <column caption='Number Of Bath' datatype='real' name='[number_of_bath]' role='measure' type='quantitative' />
-      <column caption='Number Of Bed' datatype='real' name='[number_of_bed]' role='measure' type='quantitative' />
-      <column caption='Number Of Bedroom' datatype='integer' name='[number_of_bedroom]' role='measure' type='quantitative' />
+      <column caption='Bath' datatype='real' name='[number_of_bath]' role='measure' type='quantitative' />
+      <column caption='Bed' datatype='real' name='[number_of_bed]' role='measure' type='quantitative' />
+      <column caption='Bedroom' datatype='integer' name='[number_of_bedroom]' role='measure' type='quantitative' />
       <column caption='Number Of Reviews' datatype='integer' name='[number_of_reviews]' role='measure' type='quantitative' />
       <column caption='Number Of Reviews Ltm' datatype='integer' name='[number_of_reviews_ltm]' role='measure' type='quantitative' />
       <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
       <column caption='Rate Score' datatype='real' name='[rate_score]' role='measure' type='quantitative' />
       <column caption='Reviews Per Month' datatype='real' name='[reviews_per_month]' role='dimension' type='quantitative' />
       <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
+      <column-instance column='[id]' derivation='Avg' name='[avg:id:qk]' pivot='key' type='quantitative' />
       <column-instance column='[number_of_bath]' derivation='Avg' name='[avg:number_of_bath:qk]' pivot='key' type='quantitative' />
       <column-instance column='[number_of_bed]' derivation='Avg' name='[avg:number_of_bed:qk]' pivot='key' type='quantitative' />
       <column-instance column='[number_of_bedroom]' derivation='Avg' name='[avg:number_of_bedroom:qk]' pivot='key' type='quantitative' />
@@ -466,7 +476,9 @@
       </column-instance>
       <column-instance column='[rate_score]' derivation='Median' name='[med:rate_score:qk]' pivot='key' type='quantitative' />
       <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
+      <column-instance column='[id]' derivation='None' name='[none:id:ok]' pivot='key' type='ordinal' />
       <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
+      <column-instance column='[number_of_bath]' derivation='Sum' name='[sum:number_of_bath:qk]' pivot='key' type='quantitative' />
       <column-instance column='[price]' derivation='Sum' name='[sum:price:qk]' pivot='key' type='quantitative' />
       <column-instance column='[rate_score]' derivation='Sum' name='[sum:rate_score:qk]' pivot='key' type='quantitative' />
       <group hidden='true' name='[Exclusions (Location,Room Type)]' name-style='unqualified' user:auto-column='exclude'>
@@ -833,49 +845,6 @@
       <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
       <style>
         <style-rule element='mark'>
-          <encoding attr='color' field='[:Measure Names]' type='palette'>
-            <map to='#4e79a7'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bath:qk]&quot;</bucket>
-            </map>
-            <map to='#59a14f'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[sum:price:qk]&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[diff:avg:rate_score:qk]&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[med:rate_score:qk]&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[sum:rate_score:qk]&quot;</bucket>
-            </map>
-            <map to='#e15759'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bedroom:qk]&quot;</bucket>
-            </map>
-            <map to='#f28e2b'>
-              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bed:qk]&quot;</bucket>
-            </map>
-          </encoding>
-          <encoding attr='color' field='[none:room_type:nk]' type='palette'>
-            <map to='#4e79a7'>
-              <bucket>&quot;Entire home/apt&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;Shared room&quot;</bucket>
-            </map>
-            <map to='#e15759'>
-              <bucket>&quot;Private room&quot;</bucket>
-            </map>
-            <map to='#f28e2b'>
-              <bucket>&quot;Hotel room&quot;</bucket>
-            </map>
-          </encoding>
           <encoding attr='color' field='[none:Location:nk]' type='palette'>
             <map to='#4e79a7'>
               <bucket>&quot;Barossa Valley&quot;</bucket>
@@ -905,6 +874,58 @@
               <bucket>&quot;Tasmania&quot;</bucket>
             </map>
           </encoding>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bath:qk]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[sum:price:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:id:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[diff:avg:rate_score:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[med:rate_score:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[none:id:ok]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[sum:number_of_bath:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[sum:rate_score:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bedroom:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.142xyxt135igw21gjnbed0twadq7].[avg:number_of_bed:qk]&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:room_type:nk]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;Entire home/apt&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;Shared room&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;Private room&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;Hotel room&quot;</bucket>
+            </map>
+          </encoding>
         </style-rule>
       </style>
       <semantic-values>
@@ -929,6 +950,7 @@
         <field-sort-custom-order field='reviews_per_month' />
         <field-sort-custom-order field='calculated_host_listings_count' />
         <field-sort-custom-order field='availability_365' />
+        <field-sort-custom-order field='Calculation_102456952531378176' />
         <field-sort-custom-order field='number_of_reviews_ltm' />
         <field-sort-custom-order field='license' />
         <field-sort-custom-order field='title' />
@@ -986,6 +1008,26 @@
   <mapsources>
     <mapsource name='Tableau' />
   </mapsources>
+  <shared-views>
+    <shared-view name='federated.142xyxt135igw21gjnbed0twadq7'>
+      <datasources>
+        <datasource caption='combined' name='federated.142xyxt135igw21gjnbed0twadq7' />
+      </datasources>
+      <datasource-dependencies datasource='federated.142xyxt135igw21gjnbed0twadq7' />
+      <filter class='categorical' column='[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]'>
+        <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
+          <groupfilter function='crossjoin'>
+            <groupfilter function='level-members' level='[none:Location:nk]' />
+            <groupfilter function='level-members' level='[none:room_type:nk]' />
+          </groupfilter>
+          <groupfilter function='crossjoin'>
+            <groupfilter function='member' level='[none:Location:nk]' member='&quot;Mornington Peninsula&quot;' />
+            <groupfilter function='member' level='[none:room_type:nk]' member='&quot;Shared room&quot;' />
+          </groupfilter>
+        </groupfilter>
+      </filter>
+    </shared-view>
+  </shared-views>
   <worksheets>
     <worksheet name='Sheet 6'>
       <table>
@@ -993,27 +1035,52 @@
           <datasources>
             <datasource caption='combined' name='federated.142xyxt135igw21gjnbed0twadq7' />
           </datasources>
+          <mapsources>
+            <mapsource name='Tableau' />
+          </mapsources>
           <datasource-dependencies datasource='federated.142xyxt135igw21gjnbed0twadq7'>
             <column datatype='string' name='[Location]' role='dimension' type='nominal' />
-            <column caption='Availability 365' datatype='integer' name='[availability_365]' role='measure' type='quantitative' />
-            <column-instance column='[availability_365]' derivation='Avg' name='[avg:availability_365:qk]' pivot='key' type='quantitative' />
+            <column aggregation='Avg' caption='Latitude' datatype='real' name='[latitude]' role='measure' semantic-role='[Geographical].[Latitude]' type='quantitative' />
+            <column aggregation='Avg' caption='Longitude' datatype='real' name='[longitude]' role='measure' semantic-role='[Geographical].[Longitude]' type='quantitative' />
+            <column caption='Neighbourhood' datatype='string' name='[neighbourhood]' role='dimension' type='nominal' />
             <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
+            <column-instance column='[latitude]' derivation='None' name='[none:latitude:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[longitude]' derivation='None' name='[none:longitude:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[neighbourhood]' derivation='None' name='[none:neighbourhood:nk]' pivot='key' type='nominal' />
+            <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
+            <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
           </datasource-dependencies>
+          <slices>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
+          </slices>
           <aggregation value='true' />
         </view>
-        <style />
+        <style>
+          <style-rule element='map'>
+            <format attr='washout' value='0.0' />
+          </style-rule>
+        </style>
         <panes>
           <pane selection-relaxation-option='selection-relaxation-allow'>
             <view>
               <breakdown value='auto' />
             </view>
             <mark class='Automatic' />
+            <encodings>
+              <lod column='[federated.142xyxt135igw21gjnbed0twadq7].[none:neighbourhood:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='false' />
+              </style-rule>
+            </style>
           </pane>
         </panes>
-        <rows>[federated.142xyxt135igw21gjnbed0twadq7].[avg:availability_365:qk]</rows>
-        <cols>[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]</cols>
+        <rows>[federated.142xyxt135igw21gjnbed0twadq7].[none:latitude:qk]</rows>
+        <cols>[federated.142xyxt135igw21gjnbed0twadq7].[none:longitude:qk]</cols>
       </table>
-      <simple-id uuid='{C517638C-8159-4DE6-A612-E4604EC8A04E}' />
+      <simple-id uuid='{50EBA5D5-E249-449B-A9B4-51671735B2F3}' />
     </worksheet>
     <worksheet name='geo'>
       <table>
@@ -1025,21 +1092,25 @@
             <mapsource name='Tableau' />
           </mapsources>
           <datasource-dependencies datasource='federated.142xyxt135igw21gjnbed0twadq7'>
+            <column caption='Sum by Location' datatype='integer' name='[Calculation_102456952535097347]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='{ FIXED [Location]: count([id])}' />
+            </column>
             <column datatype='string' name='[Location]' role='dimension' type='nominal' />
             <column-instance column='[latitude]' derivation='Avg' name='[avg:latitude:qk]' pivot='key' type='quantitative' />
             <column-instance column='[longitude]' derivation='Avg' name='[avg:longitude:qk]' pivot='key' type='quantitative' />
             <column-instance column='[rate_score]' derivation='Avg' name='[avg:rate_score:qk]' pivot='key' type='quantitative' />
+            <column caption='Id' datatype='integer' name='[id]' role='dimension' type='ordinal' />
             <column aggregation='Avg' caption='Latitude' datatype='real' name='[latitude]' role='measure' semantic-role='[Geographical].[Latitude]' type='quantitative' />
             <column aggregation='Avg' caption='Longitude' datatype='real' name='[longitude]' role='measure' semantic-role='[Geographical].[Longitude]' type='quantitative' />
+            <column-instance column='[Calculation_102456952535097347]' derivation='None' name='[none:Calculation_102456952535097347:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
             <column-instance column='[rate_score]' derivation='None' name='[none:rate_score:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
             <column caption='Rate Score' datatype='real' name='[rate_score]' role='measure' type='quantitative' />
+            <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
           </datasource-dependencies>
           <filter class='categorical' column='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]'>
-            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
-              <groupfilter function='level-members' level='[none:Location:nk]' />
-              <groupfilter function='member' level='[none:Location:nk]' member='%null%' />
-            </groupfilter>
+            <groupfilter function='level-members' level='[none:Location:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='quantitative' column='[federated.142xyxt135igw21gjnbed0twadq7].[none:rate_score:qk]' included-values='in-range-or-null'>
             <min>0.10000000000000001</min>
@@ -1048,10 +1119,15 @@
           <slices>
             <column>[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]</column>
             <column>[federated.142xyxt135igw21gjnbed0twadq7].[none:rate_score:qk]</column>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
           </slices>
           <aggregation value='true' />
         </view>
         <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.142xyxt135igw21gjnbed0twadq7].[avg:longitude:qk]' field-type='quantitative' max='17371644.206859745' min='12617283.688283198' projection='EPSG:3857' range-type='fixed' scope='cols' type='space' />
+            <encoding attr='space' class='0' field='[federated.142xyxt135igw21gjnbed0twadq7].[avg:latitude:qk]' field-type='quantitative' max='-2759692.8028320461' min='-5762729.5104517825' projection='EPSG:3857' range-type='fixed' scope='rows' type='space' />
+          </style-rule>
           <style-rule element='cell'>
             <format attr='color' field='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' value='#000000' />
           </style-rule>
@@ -1061,6 +1137,7 @@
           </style-rule>
           <style-rule element='mark'>
             <encoding attr='color' field='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' num-steps='10' palette='purple_10_0' type='interpolated' />
+            <encoding attr='size' field='[federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_102456952535097347:qk]' field-type='quantitative' max='23451' max-size='1' min='326' min-size='0' type='quantsize' />
           </style-rule>
           <style-rule element='pane'>
             <format attr='band-color' scope='rows' value='#ffffff' />
@@ -1082,13 +1159,13 @@
             <mark class='Automatic' />
             <encodings>
               <color column='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' />
-              <text column='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' />
-              <lod column='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' />
+              <size column='[federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_102456952535097347:qk]' />
             </encodings>
             <style>
               <style-rule element='mark'>
                 <format attr='mark-labels-cull' value='true' />
-                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-show' value='false' />
+                <format attr='size' value='2.1876013278961182' />
               </style-rule>
             </style>
           </pane>
@@ -1097,6 +1174,52 @@
         <cols>[federated.142xyxt135igw21gjnbed0twadq7].[avg:longitude:qk]</cols>
       </table>
       <simple-id uuid='{33AC58E2-A62D-4C8C-B865-1FF8DAD01B9D}' />
+    </worksheet>
+    <worksheet name='popularity'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='combined' name='federated.142xyxt135igw21gjnbed0twadq7' />
+          </datasources>
+          <datasource-dependencies datasource='federated.142xyxt135igw21gjnbed0twadq7'>
+            <column caption='Popularity' datatype='integer' name='[Calculation_102456952531378176]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='365-[availability_365]' />
+            </column>
+            <column datatype='string' name='[Location]' role='dimension' type='nominal' />
+            <column caption='Availability 365' datatype='integer' name='[availability_365]' role='measure' type='quantitative' />
+            <column-instance column='[Calculation_102456952531378176]' derivation='Avg' name='[avg:Calculation_102456952531378176:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
+            <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
+            <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
+          </datasource-dependencies>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' shelf='columns' />
+          </shelf-sorts>
+          <slices>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='mark'>
+            <encoding attr='color' field='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' palette='orange_10_0' type='interpolated' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]</rows>
+        <cols>[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]</cols>
+      </table>
+      <simple-id uuid='{C517638C-8159-4DE6-A612-E4604EC8A04E}' />
     </worksheet>
     <worksheet name='price_by_location&amp;type'>
       <table>
@@ -1112,18 +1235,6 @@
             <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
             <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]'>
-            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='exclusive' user:ui-marker='enumerate'>
-              <groupfilter function='crossjoin'>
-                <groupfilter function='level-members' level='[none:Location:nk]' />
-                <groupfilter function='level-members' level='[none:room_type:nk]' />
-              </groupfilter>
-              <groupfilter function='crossjoin'>
-                <groupfilter function='member' level='[none:Location:nk]' member='&quot;Mornington Peninsula&quot;' />
-                <groupfilter function='member' level='[none:room_type:nk]' member='&quot;Shared room&quot;' />
-              </groupfilter>
-            </groupfilter>
-          </filter>
           <slices>
             <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
           </slices>
@@ -1171,12 +1282,23 @@
             <column-instance column='[rate_score]' derivation='Avg' name='[avg:rate_score:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Calculation_925771259231248386]' derivation='None' name='[none:Calculation_925771259231248386:nk]' pivot='key' type='nominal' />
             <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
+            <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
             <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
             <column caption='Rate Score' datatype='real' name='[rate_score]' role='measure' type='quantitative' />
+            <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
           </datasource-dependencies>
+          <_.fcp.SingleValuePerNestSorting.true...single-value-per-nest-shelf-sorts>
+            <single-value-per-nest-shelf-sort dimension-to-sort='[federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_925771259231248386:nk]' direction='ASC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_925771259231248386:nk]' shelf='rows' />
+          </_.fcp.SingleValuePerNestSorting.true...single-value-per-nest-shelf-sorts>
+          <slices>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
+          </slices>
           <aggregation value='true' />
         </view>
         <style>
+          <style-rule element='cell'>
+            <format attr='width' field='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' value='112' />
+          </style-rule>
           <style-rule element='mark'>
             <encoding attr='size-bar' field='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' field-type='quantitative' max-size='1' min-size='0.005' type='centersize' />
           </style-rule>
@@ -1204,6 +1326,10 @@
                 <format attr='mark-labels-range-scope' value='pane' />
                 <format attr='mark-labels-range-field' value='' />
               </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
             </style>
           </pane>
         </panes>
@@ -1222,14 +1348,18 @@
             <column caption='Price by range' datatype='string' name='[Calculation_925771259231248386]' role='dimension' type='nominal'>
               <calculation class='tableau' formula='IF [price] &lt;= 100 THEN &quot;0-100&quot; ELSEIF [price] &lt;=200 THEN &quot;101-200&quot; ELSEIF [price] &lt;=300 THEN &quot;201-300&quot; ELSEIF [price] &lt;=400 THEN &quot;301-400&quot; ELSEIF [price] &lt;=500 THEN &quot;401-500&quot; ELSE &quot;500+&quot; END' />
             </column>
+            <column datatype='string' name='[Location]' role='dimension' type='nominal' />
             <column-instance column='[number_of_bath]' derivation='Avg' name='[avg:number_of_bath:qk]' pivot='key' type='quantitative' />
             <column-instance column='[number_of_bed]' derivation='Avg' name='[avg:number_of_bed:qk]' pivot='key' type='quantitative' />
             <column-instance column='[number_of_bedroom]' derivation='Avg' name='[avg:number_of_bedroom:qk]' pivot='key' type='quantitative' />
             <column-instance column='[Calculation_925771259231248386]' derivation='None' name='[none:Calculation_925771259231248386:nk]' pivot='key' type='nominal' />
-            <column caption='Number Of Bath' datatype='real' name='[number_of_bath]' role='measure' type='quantitative' />
-            <column caption='Number Of Bed' datatype='real' name='[number_of_bed]' role='measure' type='quantitative' />
-            <column caption='Number Of Bedroom' datatype='integer' name='[number_of_bedroom]' role='measure' type='quantitative' />
+            <column-instance column='[Location]' derivation='None' name='[none:Location:nk]' pivot='key' type='nominal' />
+            <column-instance column='[room_type]' derivation='None' name='[none:room_type:nk]' pivot='key' type='nominal' />
+            <column caption='Bath' datatype='real' name='[number_of_bath]' role='measure' type='quantitative' />
+            <column caption='Bed' datatype='real' name='[number_of_bed]' role='measure' type='quantitative' />
+            <column caption='Bedroom' datatype='integer' name='[number_of_bedroom]' role='measure' type='quantitative' />
             <column caption='Price' datatype='integer' name='[price]' role='measure' type='quantitative' />
+            <column caption='Room Type' datatype='string' name='[room_type]' role='dimension' type='nominal' />
           </datasource-dependencies>
           <filter class='categorical' column='[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]'>
             <groupfilter function='union' user:op='manual'>
@@ -1240,6 +1370,7 @@
           </filter>
           <slices>
             <column>[federated.142xyxt135igw21gjnbed0twadq7].[:Measure Names]</column>
+            <column>[federated.142xyxt135igw21gjnbed0twadq7].[Exclusions (Location,Room Type)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -1262,9 +1393,35 @@
     </worksheet>
   </worksheets>
   <dashboards>
+    <dashboard name='Story 1' type='storyboard'>
+      <style />
+      <size maxheight='964' maxwidth='1016' minheight='964' minwidth='1016' />
+      <zones>
+        <zone h='100000' id='2' type-v2='layout-basic' w='100000' x='0' y='0'>
+          <zone h='98340' id='1' param='vert' removable='false' type-v2='layout-flow' w='98426' x='787' y='830'>
+            <zone h='3423' id='3' type-v2='title' w='98426' x='787' y='830' />
+            <zone h='10477' id='4' is-fixed='true' paired-zone-id='5' removable='false' type-v2='flipboard-nav' w='98426' x='787' y='4253' />
+            <zone h='84440' id='5' paired-zone-id='4' removable='false' type-v2='flipboard' w='98426' x='787' y='14730'>
+              <flipboard active-id='1' nav-type='caption' show-nav-arrows='true'>
+                <story-points>
+                  <story-point captured-sheet='' id='1' />
+                </story-points>
+              </flipboard>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <simple-id uuid='{4C58E750-432F-4E33-81FB-EEFC62362843}' />
+    </dashboard>
     <dashboard _.fcp.AccessibleZoneTabOrder.true...enable-sort-zone-taborder='true' name='airbnb_in_au'>
       <style />
-      <size maxheight='768' maxwidth='1366' minheight='768' minwidth='1366' preset-index='0' sizing-mode='fixed' />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' preset-index='1' sizing-mode='fixed' />
       <datasources>
         <datasource caption='combined' name='federated.142xyxt135igw21gjnbed0twadq7' />
       </datasources>
@@ -1274,9 +1431,9 @@
       </datasource-dependencies>
       <zones>
         <zone h='100000' id='12' type-v2='layout-basic' w='100000' x='0' y='0'>
-          <zone h='97916' id='15' param='horz' type-v2='layout-flow' w='98828' x='586' y='1042'>
-            <zone h='97916' id='13' type-v2='layout-basic' w='87115' x='586' y='1042'>
-              <zone h='48957' id='11' name='geo' w='43560' x='44141' y='1042'>
+          <zone h='98000' id='15' param='horz' type-v2='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='98000' id='13' type-v2='layout-basic' w='82400' x='800' y='1000'>
+              <zone h='48739' id='11' name='geo' w='53700' x='29500' y='1000'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1284,7 +1441,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='48957' id='18' name='price_by_location&amp;type' w='43555' x='586' y='1042'>
+              <zone h='49261' id='20' name='review_by_location&amp;price' w='82400' x='800' y='49739'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1292,7 +1449,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='48959' id='20' name='review_by_location&amp;price' w='87115' x='586' y='49999'>
+              <zone h='48739' id='30' name='popularity' w='28700' x='800' y='1000'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1301,8 +1458,8 @@
                 </zone-style>
               </zone>
             </zone>
-            <zone fixed-size='160' h='97916' id='14' is-fixed='true' param='vert' type-v2='layout-flow' w='11713' x='87701' y='1042'>
-              <zone h='40365' id='16' name='geo' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='filter' w='11713' x='87701' y='1042'>
+            <zone fixed-size='160' h='98000' id='14' is-fixed='true' param='vert' type-v2='layout-flow' w='16000' x='83200' y='1000'>
+              <zone h='27750' id='16' name='geo' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='filter' w='16000' x='83200' y='1000'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1310,7 +1467,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='3516' id='17' name='geo' pane-specification-id='1' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='color' w='11713' x='87701' y='41407'>
+              <zone h='2750' id='17' name='geo' pane-specification-id='1' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='color' w='16000' x='83200' y='28750'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1318,7 +1475,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='17448' id='19' name='price_by_location&amp;type' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:room_type:nk]' type-v2='color' w='11713' x='87701' y='44923'>
+              <zone h='8125' id='21' name='review_by_location&amp;price' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' type-v2='color' w='16000' x='83200' y='31500'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1326,7 +1483,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='10547' id='21' name='review_by_location&amp;price' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' type-v2='color' w='11713' x='87701' y='62371'>
+              <zone h='8125' id='31' name='popularity' pane-specification-id='2' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' type-v2='color' w='16000' x='83200' y='39625'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -1348,9 +1505,9 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='1150' minheight='1150' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='27' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='97916' id='26' param='vert' type-v2='layout-flow' w='98828' x='586' y='1042'>
-                <zone fixed-size='280' h='48957' id='18' is-fixed='true' name='price_by_location&amp;type' w='43555' x='586' y='1042'>
+            <zone h='100000' id='39' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='38' param='vert' type-v2='layout-flow' w='98400' x='800' y='1000'>
+                <zone fixed-size='280' h='48739' id='30' is-fixed='true' name='popularity' w='28700' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1359,7 +1516,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='17448' id='19' name='price_by_location&amp;type' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:room_type:nk]' type-v2='color' w='11713' x='87701' y='70963'>
+                <zone h='8125' id='31' name='popularity' pane-specification-id='2' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' type-v2='color' w='16000' x='83200' y='39625'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1368,7 +1525,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='36197' id='16' mode='checkdropdown' name='geo' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='filter' w='11713' x='87701' y='1042'>
+                <zone h='27750' id='16' mode='checkdropdown' name='geo' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='filter' w='16000' x='83200' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1377,7 +1534,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='48957' id='11' is-fixed='true' name='geo' w='43560' x='44141' y='1042'>
+                <zone fixed-size='280' h='48739' id='11' is-fixed='true' name='geo' w='53700' x='29500' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1386,7 +1543,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='33724' id='17' name='geo' pane-specification-id='1' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='color' w='11713' x='87701' y='37239'>
+                <zone h='2750' id='17' name='geo' pane-specification-id='1' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Location:nk]' type-v2='color' w='16000' x='83200' y='28750'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1395,7 +1552,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='48959' id='20' is-fixed='true' name='review_by_location&amp;price' w='87115' x='586' y='49999'>
+                <zone fixed-size='280' h='49261' id='20' is-fixed='true' name='review_by_location&amp;price' w='82400' x='800' y='49739'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1404,7 +1561,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='10547' id='21' name='review_by_location&amp;price' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' type-v2='color' w='11713' x='87701' y='88411'>
+                <zone h='8125' id='21' name='review_by_location&amp;price' pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' type-v2='color' w='16000' x='83200' y='31500'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1427,18 +1584,20 @@
       <simple-id uuid='{5960A021-C516-43FB-AF99-765A97F450AA}' />
     </dashboard>
   </dashboards>
-  <windows saved-dpi-scale-factor='1.5' source-height='44'>
-    <window class='dashboard' maximized='true' name='airbnb_in_au'>
+  <windows source-height='44'>
+    <window class='dashboard' name='airbnb_in_au'>
       <viewpoints>
         <viewpoint name='geo'>
           <zoom type='entire-view' />
         </viewpoint>
-        <viewpoint name='price_by_location&amp;type'>
+        <viewpoint name='popularity'>
           <zoom type='entire-view' />
         </viewpoint>
-        <viewpoint name='review_by_location&amp;price' />
+        <viewpoint name='review_by_location&amp;price'>
+          <zoom type='fit-width' />
+        </viewpoint>
       </viewpoints>
-      <active id='20' />
+      <active id='30' />
       <simple-id uuid='{0A797E33-C4F4-4AD0-B17A-D03D6A1A2757}' />
     </window>
     <window class='worksheet' name='geo'>
@@ -1465,6 +1624,7 @@
           <strip size='160'>
             <card param='[federated.142xyxt135igw21gjnbed0twadq7].[none:rate_score:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
             <card pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:rate_score:qk]' type='color' />
+            <card pane-specification-id='0' param='[federated.142xyxt135igw21gjnbed0twadq7].[none:Calculation_102456952535097347:qk]' type='size' />
           </strip>
         </edge>
       </cards>
@@ -1473,7 +1633,7 @@
       </viewpoint>
       <simple-id uuid='{651C6127-4D3E-43FC-B270-A78A33941E03}' />
     </window>
-    <window class='worksheet' name='price_by_location&amp;type'>
+    <window class='worksheet' maximized='true' name='price_by_location&amp;type'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -1558,6 +1718,39 @@
       </cards>
       <simple-id uuid='{8DCA83C7-8CF6-488E-B7C3-1562BF677E5A}' />
     </window>
+    <window class='worksheet' name='popularity'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='2' param='[federated.142xyxt135igw21gjnbed0twadq7].[avg:Calculation_102456952531378176:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{24EAAD26-C066-49FC-B03F-F1628C23BC30}' />
+    </window>
+    <window class='dashboard' name='Story 1'>
+      <viewpoints />
+      <active id='-1' />
+      <simple-id uuid='{409033CF-DAEA-43E1-814F-08358EB9D3FC}' />
+    </window>
     <window class='worksheet' name='Sheet 6'>
       <cards>
         <edge name='left'>
@@ -1579,7 +1772,7 @@
           </strip>
         </edge>
       </cards>
-      <simple-id uuid='{24EAAD26-C066-49FC-B03F-F1628C23BC30}' />
+      <simple-id uuid='{5939920F-D3CA-42CB-A8AC-3F9572EB5A77}' />
     </window>
   </windows>
   <_.fcp.DataOrientationSidePane.true...data-orientation>
